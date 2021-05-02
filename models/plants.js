@@ -42,7 +42,6 @@ module.exports = function(sequelize, DataTypes) {
   }, {
     sequelize,
     tableName: 'plants',
-    timestamps: false,
     indexes: [
       {
         name: "PRIMARY",

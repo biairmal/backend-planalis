@@ -34,6 +34,5 @@ module.exports = function(sequelize, DataTypes) {
   }, {
     sequelize,
     tableName: 'gardens',
-    timestamps: false
   });
 };
