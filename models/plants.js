@@ -9,7 +9,11 @@ module.exports = function(sequelize, DataTypes) {
     },
     garden_id: {
       type: DataTypes.INTEGER,
-      allowNull: false
+      allowNull: false,
+      references: {
+        model: 'gardens',
+        key: 'garden_id'
+      }
     },
     plant_code: {
       type: DataTypes.STRING(255),
@@ -27,21 +31,18 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.STRING(255),
       allowNull: true
     },
-    created_at: {
-      type: DataTypes.DATE,
-      allowNull: true
-    },
-    updated_at: {
-      type: DataTypes.DATE,
-      allowNull: true
-    },
     created_by: {
       type: DataTypes.INTEGER,
-      allowNull: false
+      allowNull: false,
+      references: {
+        model: 'users',
+        key: 'user_id'
+      }
     }
   }, {
     sequelize,
     tableName: 'plants',
+    timestamps: true,
     indexes: [
       {
         name: "PRIMARY",
@@ -49,6 +50,20 @@ module.exports = function(sequelize, DataTypes) {
         using: "BTREE",
         fields: [
           { name: "plant_id" },
+        ]
+      },
+      {
+        name: "created_by",
+        using: "BTREE",
+        fields: [
+          { name: "created_by" },
+        ]
+      },
+      {
+        name: "garden_id",
+        using: "BTREE",
+        fields: [
+          { name: "garden_id" },
         ]
       },
     ]

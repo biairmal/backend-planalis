@@ -17,7 +17,8 @@ exports.create = (req, res) => {
     const garden = {
         garden_name: req.body.garden_name,
         location: req.body.location,
-        size_m2: req.body.size_m2
+        size_m2: req.body.size_m2,
+        created_by: req.body.created_by
     }
 
     Garden.create(garden)
