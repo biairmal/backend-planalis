@@ -1,7 +1,15 @@
 const models = require('../models')
 const Plant = models.plants
+const Garden = models.gardens
 
 const Op = models.Sequelize.Op
+
+Plant.belongsTo(Garden, {
+    foreignKey: "garden_id"
+});
+Garden.hasMany(Plant, {
+    foreignKey: "garden_id"
+});
 
 //create plant
 exports.create = (req, res) => {
@@ -18,9 +26,9 @@ exports.create = (req, res) => {
         plant_code: req.body.plant_code,
         height: req.body.height,
         width: req.body.width,
-        plant_type : req.body.plant_type,
-        garden_id : req.body.garden_id,
-        created_by : req.body.created_by
+        plant_type: req.body.plant_type,
+        garden_id: req.body.garden_id,
+        created_by: req.body.created_by
     }
 
     Plant.create(plant)
@@ -38,11 +46,12 @@ exports.create = (req, res) => {
 exports.findAll = (req, res) => {
 
     var condition = {
-        garden_id : req.params.garden_id
+        garden_id: req.params.garden_id
     }
 
-    Plant.findAll({
-            where: condition
+    Garden.findAll({
+            where: condition,
+            include : Plant
         })
         .then(data => {
             res.send(data)
@@ -127,7 +136,7 @@ exports.delete = (req, res) => {
 exports.deleteAll = (req, res) => {
 
     var condition = {
-        garden_id : req.params.garden_id
+        garden_id: req.params.garden_id
     }
     Plant.destroy({
             where: condition,

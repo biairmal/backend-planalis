@@ -1,5 +1,5 @@
 module.exports = app => {
-    const controller = require('../controllers/tasks.controller')
+    const controller = require('../controllers/task.controller')
 
     var {
         Router
