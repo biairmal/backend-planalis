@@ -1,18 +1,17 @@
-const {authJwt} = require('../middleware')
-const controller = require('../controllers/user.controller')
+module.exports = app => {
+    const controller = require('../controllers/user.controller')
 
-module.exports = function(app) {
-    app.use(function(req,res,next) {
-        res.header(
-            "Access-Control-Allow-Headers",
-            "x-access-token, Origin, Content-Type, Accept"
-        )
-        next
-    })
+    var {
+        Router
+    } = require('express')
 
-    app.get(
-        "api/test/home",
-        [authJwt.verifyToken],
-        controller.Home
-    )
+    const router = Router()
+
+    //Update user role
+    router.put("/api/users/:id", controller.changeRole)
+
+    //Delete user
+    router.delete("/api/users/:id", controller.delete)
+
+    app.use(router)
 }
