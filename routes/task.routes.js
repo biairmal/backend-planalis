@@ -12,6 +12,9 @@ module.exports = app => {
 
     //Retrieve all tasks
     router.get("/api/tasks", controller.findAll)
+
+    //Retrieve all tasks
+    router.get("/api/tasks2", controller.findAll2)
     
     //Retrieve all tasks from specific garden
     router.get("/api/:garden_id/tasks", controller.findAllFromGarden)

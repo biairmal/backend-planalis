@@ -61,6 +61,20 @@ exports.findAll = (req, res) => {
         })
 }
 
+//retrieve all tasks v2
+exports.findAll2 = (req, res) => {
+
+    Task.findAll()
+        .then(data => {
+            res.send(data)
+        })
+        .catch(err => {
+            res.status(500).send({
+                message: err.message || "Some error occured while retrieving tasks."
+            })
+        })
+}
+
 //retrieve all tasks from specific gagrden
 exports.findAllFromGarden = (req, res) => {
 
