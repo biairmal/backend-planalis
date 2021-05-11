@@ -1,6 +1,7 @@
 const models = require('../models')
 const Plant = models.plants
 const Garden = models.gardens
+const Growth = models.growth
 
 const Op = models.Sequelize.Op
 
@@ -9,6 +10,13 @@ Plant.belongsTo(Garden, {
 });
 Garden.hasMany(Plant, {
     foreignKey: "garden_id"
+});
+
+Growth.belongsTo(Plant, {
+    foreignKey: "plant_id"
+});
+Plant.hasMany(Growth, {
+    foreignKey: "plant_id"
 });
 
 //create plant
@@ -67,7 +75,13 @@ exports.findAll = (req, res) => {
 exports.findOne = (req, res) => {
     const id = req.params.id
 
-    Plant.findByPk(id)
+    Plant.findByPk(id, {
+        include : {
+            model : Growth,
+            
+        },
+        order : [[Growth, 'createdAt', 'DESC']]
+    })
         .then(data => {
             res.send(data)
         })
@@ -81,6 +95,19 @@ exports.findOne = (req, res) => {
 //update plant
 exports.update = (req, res) => {
     const id = req.params.id
+
+    Plant.findByPk(id, {
+        attributes : ['plant_id', 'height', 'width', 'status']
+    })
+        .then(data => {
+            var growth = data.dataValues
+            growth.updatedBy = req.body.updatedBy
+            console.log(growth)
+            Growth.create(growth)
+        })
+        .catch(err => {
+            res.status(500).send({message : err.message})
+        })
 
     Plant.update(req.body, {
             where: {

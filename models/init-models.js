@@ -1,5 +1,6 @@
 var DataTypes = require("sequelize").DataTypes;
 var _gardens = require("./gardens");
+var _growth = require("./growth");
 var _plants = require("./plants");
 var _roles = require("./roles");
 var _sequelizemeta = require("./sequelizemeta");
@@ -8,6 +9,7 @@ var _users = require("./users");
 
 function initModels(sequelize) {
   var gardens = _gardens(sequelize, DataTypes);
+  var growth = _growth(sequelize, DataTypes);
   var plants = _plants(sequelize, DataTypes);
   var roles = _roles(sequelize, DataTypes);
   var sequelizemeta = _sequelizemeta(sequelize, DataTypes);
@@ -18,10 +20,14 @@ function initModels(sequelize) {
   gardens.hasMany(plants, { as: "plants", foreignKey: "garden_id"});
   tasks.belongsTo(gardens, { as: "garden", foreignKey: "garden_id"});
   gardens.hasMany(tasks, { as: "tasks", foreignKey: "garden_id"});
+  growth.belongsTo(plants, { as: "plant", foreignKey: "plant_id"});
+  plants.hasMany(growth, { as: "growths", foreignKey: "plant_id"});
   users.belongsTo(roles, { as: "role", foreignKey: "role_id"});
   roles.hasMany(users, { as: "users", foreignKey: "role_id"});
   gardens.belongsTo(users, { as: "created_by_user", foreignKey: "created_by"});
   users.hasMany(gardens, { as: "gardens", foreignKey: "created_by"});
+  growth.belongsTo(users, { as: "updatedBy_user", foreignKey: "updatedBy"});
+  users.hasMany(growth, { as: "growths", foreignKey: "updatedBy"});
   plants.belongsTo(users, { as: "created_by_user", foreignKey: "created_by"});
   users.hasMany(plants, { as: "plants", foreignKey: "created_by"});
   tasks.belongsTo(users, { as: "created_by_user", foreignKey: "created_by"});
@@ -29,6 +35,7 @@ function initModels(sequelize) {
 
   return {
     gardens,
+    growth,
     plants,
     roles,
     sequelizemeta,

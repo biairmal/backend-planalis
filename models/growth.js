@@ -1,52 +1,43 @@
 const Sequelize = require('sequelize');
 module.exports = function(sequelize, DataTypes) {
-  return sequelize.define('plants', {
-    plant_id: {
+  return sequelize.define('growth', {
+    growth_id: {
       autoIncrement: true,
       type: DataTypes.INTEGER,
       allowNull: false,
       primaryKey: true
     },
-    garden_id: {
+    plant_id: {
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
-        model: 'gardens',
-        key: 'garden_id'
+        model: 'plants',
+        key: 'plant_id'
       }
-    },
-    plant_code: {
-      type: DataTypes.STRING(255),
-      allowNull: false
     },
     height: {
       type: DataTypes.INTEGER,
-      allowNull: true
+      allowNull: false
     },
     width: {
       type: DataTypes.INTEGER,
-      allowNull: true
+      allowNull: false
     },
-    plant_type: {
+    status: {
       type: DataTypes.STRING(255),
       allowNull: true
     },
-    created_by: {
+    updatedBy: {
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
         model: 'users',
         key: 'user_id'
       }
-    },
-    status: {
-      type: DataTypes.STRING(255),
-      allowNull: false,
-      defaultValue: "HEALTHY"
     }
   }, {
     sequelize,
-    tableName: 'plants',
+    tableName: 'growth',
     timestamps: true,
     indexes: [
       {
@@ -54,21 +45,21 @@ module.exports = function(sequelize, DataTypes) {
         unique: true,
         using: "BTREE",
         fields: [
+          { name: "growth_id" },
+        ]
+      },
+      {
+        name: "plant_id",
+        using: "BTREE",
+        fields: [
           { name: "plant_id" },
         ]
       },
       {
-        name: "created_by",
+        name: "updatedBy",
         using: "BTREE",
         fields: [
-          { name: "created_by" },
-        ]
-      },
-      {
-        name: "garden_id",
-        using: "BTREE",
-        fields: [
-          { name: "garden_id" },
+          { name: "updatedBy" },
         ]
       },
     ]

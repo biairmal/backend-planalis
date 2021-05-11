@@ -1,7 +1,18 @@
+const {
+    sequelize
+} = require('../models')
 const models = require('../models')
 const Garden = models.gardens
+const Plant = models.plants
 
 const Op = models.Sequelize.Op
+
+Plant.belongsTo(Garden, {
+    foreignKey: "garden_id"
+});
+Garden.hasMany(Plant, {
+    foreignKey: "plant_id"
+});
 
 //create garden
 exports.create = (req, res) => {
@@ -42,7 +53,17 @@ exports.findAll = (req, res) => {
     } : null
 
     Garden.findAll({
-            where: condition
+            where: condition,
+            attributes: [
+                'garden_id', 'garden_name', 'size_m2', 'location',
+                // [sequelize.fn('COUNT', 'Plant.plant_id'), 'garden_id'],
+            ],
+            include: {
+                model: Plant,
+                attributes: [[sequelize.fn('count', sequelize.col('plant_id')), 'count']],
+            },
+            group: ['garden_id'],
+            raw: true,
         })
         .then(data => {
             res.send(data)
