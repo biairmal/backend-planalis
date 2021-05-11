@@ -60,7 +60,9 @@ exports.findAll = (req, res) => {
             ],
             include: {
                 model: Plant,
-                attributes: [[sequelize.fn('count', sequelize.col('plant_id')), 'count']],
+                attributes: [
+                    [sequelize.fn('count', sequelize.col('plant_id')), 'count']
+                ],
             },
             group: ['garden_id'],
             raw: true,
