@@ -55,14 +55,17 @@ exports.findAll = (req, res) => {
     Garden.findAll({
             where: condition,
             attributes: [
-                'garden_id', 'garden_name', 'size_m2', 'location',
-                // [sequelize.fn('COUNT', 'Plant.plant_id'), 'garden_id'],
+                'garden_id', 
+                'garden_name', 
+                'size_m2', 
+                'location', 
+                [sequelize.literal('COUNT(plant_id)'), 'plants_total'],
+                [sequelize.literal(`COUNT(CASE status WHEN 'HEALTHY' THEN 1 ELSE null END)`), 'plants_healthy'],
+                [sequelize.literal(`COUNT(CASE status WHEN 'SICK' THEN 1 ELSE null END)`), 'plants_sick'],
             ],
             include: {
                 model: Plant,
-                attributes: [
-                    [sequelize.fn('count', sequelize.col('plant_id')), 'count']
-                ],
+                attributes: [],
             },
             group: ['garden_id'],
             raw: true,
