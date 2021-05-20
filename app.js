@@ -25,6 +25,7 @@ require('./routes/task.routes')(app)
 require('./routes/user.routes')(app)
 
 app.listen(3000, () => {
+    print("RESTful API Connected")
     console.log("Server up and running")
     console.log(process.env.BASE_URL)
 })
