@@ -1,11 +1,14 @@
+require('dotenv').config()
+
 const express = require('express')
 const {
     sequelize,
     DataTypes
 } = require('sequelize')
 const cors = require('cors')
+
 var corsOptions = {
-    origin: "http://localhost:3000"
+    origin: process.env.BASE_URL
 }
 
 const app = express()
@@ -23,4 +26,5 @@ require('./routes/user.routes')(app)
 
 app.listen(3000, () => {
     console.log("Server up and running")
+    console.log(process.env.BASE_URL)
 })
