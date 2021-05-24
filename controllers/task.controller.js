@@ -116,6 +116,37 @@ exports.findOne = (req, res) => {
 exports.update = (req, res) => {
     const id = req.params.id
 
+    var req_status = (req.body.status == 1) ? "Assigned" : "Done"
+    const task = {
+        status: req_status,
+    }
+
+    Task.update(task, {
+            where: {
+                task_id: id
+            }
+        })
+        .then(num => {
+            if (num == 1) {
+                res.send({
+                    message: "Task was updated successfully."
+                })
+            } else {
+                res.send({
+                    message: `Cannot update Task with id=${id}. Maybe Task was not found or req.body is empty!`
+                })
+            }
+        })
+        .catch(err => {
+            res.status(500).send({
+                message: err.message
+            })
+        })
+}
+
+exports.update_done = (req, res) => {
+    const id = req.params.id
+
     var req_status = (req.body.status == 1) ? "Done" : "Assigned"
     const task = {
         status: req_status,
@@ -143,6 +174,7 @@ exports.update = (req, res) => {
             })
         })
 }
+
 
 //delete task
 exports.delete = (req, res) => {

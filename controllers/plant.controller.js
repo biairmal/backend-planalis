@@ -101,7 +101,8 @@ exports.update = (req, res) => {
     })
         .then(data => {
             var growth = data.dataValues
-            growth.updatedBy = req.body.updatedBy
+            growth.updatedBy = "1" 
+            // req.body.updatedBy
             console.log(growth)
             Growth.create(growth)
         })
