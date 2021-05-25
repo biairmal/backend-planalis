@@ -1,18 +1,15 @@
 require('dotenv').config()
 
 const express = require('express')
-const {
-    sequelize,
-    DataTypes
-} = require('sequelize')
+const { sequelize, DataTypes } = require('sequelize')
 const cors = require('cors')
 
-var corsOptions = {
-    origin: process.env.BASE_URL
-}
+var corsOptions = { origin: process.env.BASE_URL }
 
 const app = express()
 const models = require('./models')
+const { response } = require('express')
+const port = process.env.APP_PORT || 3000
 
 app.use(cors(corsOptions))
 app.use(express.json())
@@ -24,8 +21,7 @@ require('./routes/plant.routes')(app)
 require('./routes/task.routes')(app)
 require('./routes/user.routes')(app)
 
-app.listen(3000, () => {
-    print("RESTful API Connected")
+app.listen(port, () => {
     console.log("Server up and running")
     console.log(process.env.BASE_URL)
 })
