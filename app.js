@@ -24,4 +24,5 @@ require('./routes/user.routes')(app)
 app.listen(port, () => {
     console.log("Server up and running")
     console.log(process.env.BASE_URL)
+    console.log(port)
 })
