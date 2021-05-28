@@ -21,6 +21,10 @@ require('./routes/plant.routes')(app)
 require('./routes/task.routes')(app)
 require('./routes/user.routes')(app)
 
+app.get('/', function (req,res) {
+    res.send('RESTful API is connected')
+})
+
 app.listen(port, () => {
     console.log("Server up and running")
     console.log(process.env.BASE_URL)
