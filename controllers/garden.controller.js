@@ -67,7 +67,7 @@ exports.findAll = (req, res) => {
                 model: Plant,
                 attributes: [],
             },
-            group: ['garden_id'],
+            group: ['Garden.garden_id'],
             raw: true,
         })
         .then(data => {
