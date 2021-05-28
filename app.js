@@ -9,7 +9,7 @@ var corsOptions = { origin: process.env.BASE_URL }
 const app = express()
 const models = require('./models')
 const { response } = require('express')
-const port = process.env.APP_PORT
+const port = process.env.PORT
 
 app.use(cors(corsOptions))
 app.use(express.json())
