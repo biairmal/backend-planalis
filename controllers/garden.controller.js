@@ -55,7 +55,7 @@ exports.findAll = (req, res) => {
     Garden.findAll({
             where: condition,
             attributes: [
-                'garden_id', 
+                'gardens.garden_id', 
                 'garden_name', 
                 'size_m2', 
                 'location', 
@@ -67,7 +67,7 @@ exports.findAll = (req, res) => {
                 model: Plant,
                 attributes: [],
             },
-            group: ['"Garden.garden_id"'],
+            group: ['gardens.garden_id'],
             raw: true,
         })
         .then(data => {
